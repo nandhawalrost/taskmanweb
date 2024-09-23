@@ -1,7 +1,9 @@
 #include <windows.h>
 #include <tlhelp32.h>
 #include <iostream>
-#include <fstream> // Include fstream for file operations
+#include <fstream>
+#include <thread>
+#include <chrono>
 
 // Function to list all processes and write to file
 void ListProcesses() {
@@ -32,12 +34,13 @@ void ListProcesses() {
     }
 
     // Write header to file
-    outputFile << "PID\t\tProcess Name" << std::endl;
-    outputFile << "------------------------------" << std::endl;
+    // using </br> because we buffer it to html file and load it to browser
+    outputFile << "PID\t\tProcess Name </br>" << std::endl;
+    outputFile << "------------------------------ </br>" << std::endl;
 
     // List all processes and write to file
     do {
-        outputFile << pe.th32ProcessID << "\t\t" << pe.szExeFile << std::endl;
+        outputFile << pe.th32ProcessID << "\t\t" << pe.szExeFile << "</br>" << std::endl;
     } while (Process32Next(hSnapshot, &pe));
 
     CloseHandle(hSnapshot);
@@ -45,6 +48,12 @@ void ListProcesses() {
 }
 
 int main() {
-    ListProcesses();
+    while (true) {
+        // Your code here
+        std::cout << "Pulling list from OS.." << std::endl;
+
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+        ListProcesses();
+    }
     return 0;
 }

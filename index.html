@@ -1,1 +1,28 @@
-heheheh
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskmanweb</title>
+</head>
+<body style="background-color: #212121;">
+<p style="color:rgb(255, 255, 255); font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;" id="content">...</p>
+    <script>
+        setInterval(() => {
+            fetch('http://localhost:8081/text')
+            //usually we as a web dev return response.json(), but here are different
+            .then(response => response.text()) 
+            .then(data => {
+                // Get a reference to the element with the ID "myElement"
+                var myElement = document.getElementById("content");
+
+                // Set the innerHTML to the new content
+                myElement.innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }, 2000);
+    </script>
+</body>
+</html>
